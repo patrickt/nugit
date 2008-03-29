@@ -5,10 +5,21 @@
 
 (load "Nugit")
 
+(class NuTestCase
+     
+     (ivars)
+     
+     (- (id) setFilePaths is
+        (set cwd ((NSFileManager defaultManager) currentDirectoryPath))
+        (set @test_dir (cwd stringByAppendingPathComponent: "files"))
+        (set @wdir_dot (@test_dir stringByAppendingPathComponent: "working"))
+        (set @wbare (@test_dir stringByAppendingPathComponent: "working.git"))))
+
 (class NugitTest is NuTestCase
      
      (- (id) setup is
-          (set @git (Git open: )))
+        (self setFilePaths)
+        (set @git (Git open: @test_dir)))
      
      (- (id) testSomething is
-          (assert_equal Git Git)))
+        (assert_equal Git Git)))

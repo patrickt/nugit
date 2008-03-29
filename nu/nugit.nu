@@ -51,7 +51,7 @@
         (super init)
         
         (set @repoLoc loc)
-
+        
         (unless (NSFileManager directoryContentsAtPath: "#{@repoLoc}/.git")
                 (puts "Initializing new git repository.")
                 (self command: "init"))
@@ -68,6 +68,9 @@
      (- (id) commit is
         (self command: "commit -m 'Automatically generated commit from the Nu/Git interface.'"))
      
+     (- (id) commitWithMessage:(id)msg is
+        (self command: "commit -m '#{msg}'"))
+     
      (- (id) fileExists:(id)path is
         (NSFileManager fileExistsAtPath: "#{@repoLoc}/#{path}"))
      
@@ -82,3 +85,7 @@
         (puts "Fetching blob.")
         (set b ((GitBlob alloc) initWithPath:path forSession:self)
              b)))
+
+(class Git is NSObject
+    (+ (id) open:(id)location is
+        ((GitSession alloc) initInDirectory: location)))
